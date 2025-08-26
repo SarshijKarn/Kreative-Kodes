@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glowing Ganesha with Aarti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0033, #000000, #330066);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ganesha-svg {
+            width: 500px;
+            height: 500px;
+            filter: drop-shadow(0 0 30px rgba(255, 165, 0, 0.8));
+        }
+
+        .glow-path {
+            fill: none;
+            stroke: url(#glowGradient);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            animation: glow-pulse 3s ease-in-out infinite alternate;
+        }
+
+        .crown-path {
+            stroke: url(#crownGradient);
+            stroke-width: 2.5;
+            animation: glow-pulse 2.5s ease-in-out infinite alternate;
+        }
+
+        .lotus-path {
+            stroke: url(#lotusGradient);
+            stroke-width: 2;
+            animation: lotus-glow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0.8));
+                stroke-width: 3;
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(255, 165, 0, 1));
+                stroke-width: 3.5;
+            }
+            100% {
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+                stroke-width: 4;
+            }
+        }
+
+        @keyframes lotus-glow {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(255, 140, 0, 0.6));
+            }
+            100% {
+                filter: drop-shadow(0 0 25px rgba(255, 140, 0, 1));
+            }
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .title {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            animation: title-glow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes title-glow {
+            0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+            100% { text-shadow: 0 0 30px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 165, 0, 0.8); }
+        }
+
+        .blessing {
+            position: fixed;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffa500;
+            font-size: 1.2em;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 165, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="title">श्री गणेश</div>
+    <div class="blessing">विघ्न हर्ता • मंगल कर्ता</div>
+    
+    <div class="container">
+        <svg class="ganesha-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#ffa500;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff6b35;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="crownGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff6b35;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ffd700;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="lotusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ffd700;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            
+            <!-- Crown -->
+            <path class="glow-path crown-path" d="M 200 30 
+                     C 190 25, 170 25, 160 35
+                     C 150 45, 150 55, 160 60
+                     L 180 50
+                     L 200 40
+                     L 220 50
+                     L 240 60
+                     C 250 55, 250 45, 240 35
+                     C 230 25, 210 25, 200 30 Z" />
+            
+            <!-- Head outline -->
+            <ellipse class="glow-path" cx="200" cy="120" rx="80" ry="70" />
+            
+            <!-- Left ear -->
+            <path class="glow-path" d="M 140 100 
+                     C 120 90, 100 100, 95 120
+                     C 90 140, 100 160, 120 165
+                     C 140 160, 150 140, 145 120
+                     C 142 110, 140 100, 140 100" />
+            
+            <!-- Right ear -->
+            <path class="glow-path" d="M 260 100 
+                     C 280 90, 300 100, 305 120
+                     C 310 140, 300 160, 280 165
+                     C 260 160, 250 140, 255 120
+                     C 258 110, 260 100, 260 100" />
+            
+            <!-- Eyes -->
+            <path class="glow-path" d="M 170 110 C 175 105, 185 105, 190 110" />
+            <path class="glow-path" d="M 210 110 C 215 105, 225 105, 230 110" />
+            
+            <!-- Tilaka (forehead marks) -->
+            <circle class="glow-path" cx="200" cy="95" r="3" />
+            <circle class="glow-path" cx="200" cy="105" r="2" />
+            <circle class="glow-path" cx="200" cy="115" r="1.5" />
+            
+            <!-- Trunk -->
+            <path class="glow-path" d="M 200 140 
+                     C 210 145, 220 155, 225 170
+                     C 230 185, 225 200, 215 210
+                     C 205 220, 190 225, 180 220
+                     C 170 215, 165 200, 170 185
+                     C 175 170, 185 155, 200 140" />
+            
+            <!-- Body -->
+            <ellipse class="glow-path" cx="200" cy="260" rx="60" ry="80" />
+            
+            <!-- Arms -->
+            <path class="glow-path" d="M 150 220 C 130 210, 110 220, 105 240 C 100 260, 110 280, 130 285" />
+            <path class="glow-path" d="M 250 220 C 270 210, 290 220, 295 240 C 300 260, 290 280, 270 285" />
+            
+            <!-- Legs -->
+            <ellipse class="glow-path" cx="180" cy="350" rx="25" ry="40" />
+            <ellipse class="glow-path" cx="220" cy="350" rx="25" ry="40" />
+            
+            <!-- Lotus petals -->
+            <path class="lotus-path" d="M 120 380 C 115 375, 115 365, 125 365 C 135 365, 140 375, 135 380" />
+            <path class="lotus-path" d="M 150 385 C 145 380, 145 370, 155 370 C 165 370, 170 380, 165 385" />
+            <path class="lotus-path" d="M 180 387 C 175 382, 175 372, 185 372 C 195 372, 200 382, 195 387" />
+            <path class="lotus-path" d="M 210 387 C 205 382, 205 372, 215 372 C 225 372, 230 382, 225 387" />
+            <path class="lotus-path" d="M 240 385 C 235 380, 235 370, 245 370 C 255 370, 260 380, 255 385" />
+            <path class="lotus-path" d="M 270 380 C 265 375, 265 365, 275 365 C 285 365, 290 375, 285 380" />
+        </svg>
+        
+        <div class="floating-particles" id="particles"></div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="toggleMusic()">🎵 Play Aarti</button>
+        <button class="control-btn" onclick="toggleParticles()">✨ Particles</button>
+        <button class="control-btn" onclick="changeColors()">🌈 Colors</button>
+    </div>
+
+    <audio id="aartiAudio" loop>
+        <source src="assets/ganesha.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let musicPlaying = false;
+        let particlesEnabled = true;
+        let currentColorScheme = 0;
+        
+        const colorSchemes = [
+            { primary: '#ffd700', secondary: '#ffa500', tertiary: '#ff6b35' },
+            { primary: '#00ff88', secondary: '#00ccdd', tertiary: '#0088ff' },
+            { primary: '#ff4081', secondary: '#e91e63', tertiary: '#9c27b0' },
+            { primary: '#ffeb3b', secondary: '#ff9800', tertiary: '#f44336' }
+        ];
+
+        function toggleMusic() {
+            const audio = document.getElementById('aartiAudio');
+            const btn = event.target;
+            
+            if (!musicPlaying) {
+                audio.play().catch(e => {
+                    console.log('Audio play failed:', e);
+                    alert('Please make sure the ganesh.mp3 file is in the assets folder');
+                });
+                btn.innerHTML = '⏸️ Pause Aarti';
+                musicPlaying = true;
+            } else {
+                audio.pause();
+                btn.innerHTML = '🎵 Play Aarti';
+                musicPlaying = false;
+            }
+        }
+
+        function toggleParticles() {
+            const particles = document.getElementById('particles');
+            const btn = event.target;
+            
+            if (particlesEnabled) {
+                particles.style.display = 'none';
+                btn.innerHTML = '✨ Show Particles';
+                particlesEnabled = false;
+            } else {
+                particles.style.display = 'block';
+                btn.innerHTML = '✨ Hide Particles';
+                particlesEnabled = true;
+            }
+        }
+
+        function changeColors() {
+            currentColorScheme = (currentColorScheme + 1) % colorSchemes.length;
+            const scheme = colorSchemes[currentColorScheme];
+            
+            // Update CSS custom properties
+            document.documentElement.style.setProperty('--primary-color', scheme.primary);
+            document.documentElement.style.setProperty('--secondary-color', scheme.secondary);
+            document.documentElement.style.setProperty('--tertiary-color', scheme.tertiary);
+            
+            // Update gradients
+            const glowGradient = document.getElementById('glowGradient');
+            glowGradient.innerHTML = `
+                <stop offset="0%" style="stop-color:${scheme.primary};stop-opacity:1" />
+                <stop offset="50%" style="stop-color:${scheme.secondary};stop-opacity:1" />
+                <stop offset="100%" style="stop-color:${scheme.tertiary};stop-opacity:1" />
+            `;
+        }
+
+        function createParticle() {
+            if (!particlesEnabled) return;
+            
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            
+            document.getElementById('particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 300);
+
+        // Add some initial particles
+        for (let i = 0; i < 10; i++) {
+            setTimeout(createParticle, i * 100);
+        }
+
+        // Add keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key.toLowerCase()) {
+                case ' ':
+                    e.preventDefault();
+                    toggleMusic();
+                    break;
+                case 'p':
+                    toggleParticles();
+                    break;
+                case 'c':
+                    changeColors();
+                    break;
+            }
+        });
+
+        // Add smooth animation on load
+        window.addEventListener('load', () => {
+            document.querySelector('.ganesha-svg').style.animation = 'glow-pulse 3s ease-in-out infinite alternate';
+        });
+    </script>
+</body>
+</html>

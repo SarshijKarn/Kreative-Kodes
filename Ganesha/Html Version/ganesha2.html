@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>श्री गणेश - Sacred Drawing Animation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(ellipse at center, #1a0d00 0%, #000000 70%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Noto Serif Devanagari', serif;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .sacred-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ganesha-canvas {
+            width: 600px;
+            height: 600px;
+            filter: drop-shadow(0 0 40px rgba(255, 140, 0, 0.8));
+            position: relative;
+            z-index: 10;
+        }
+
+        .drawing-path {
+            fill: none;
+            stroke: url(#sacredGradient);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        .completed-path {
+            animation: divine-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes divine-glow {
+            0% {
+                filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.8));
+                stroke-width: 3;
+            }
+            100% {
+                filter: drop-shadow(0 0 25px rgba(255, 215, 0, 1)) drop-shadow(0 0 35px rgba(255, 140, 0, 0.6));
+                stroke-width: 3.5;
+            }
+        }
+
+        .sparkle-trail {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #ffd700, transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-fade 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkle-fade {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .blessing-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .blessing-particle {
+            position: absolute;
+            font-size: 20px;
+            color: #ffd700;
+            animation: float-blessing 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-blessing {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+                transform: translateY(90vh) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 0.8;
+                transform: translateY(-10vh) rotate(324deg) scale(1);
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .sacred-title {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 3em;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            animation: title-divine 4s ease-in-out infinite alternate;
+            z-index: 20;
+        }
+
+        @keyframes title-divine {
+            0% { 
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+                transform: translateX(-50%) scale(1);
+            }
+            100% { 
+                text-shadow: 0 0 40px rgba(255, 215, 0, 1), 0 0 60px rgba(255, 140, 0, 0.8);
+                transform: translateX(-50%) scale(1.02);
+            }
+        }
+
+        .mantra-container {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 20;
+        }
+
+        .mantra-text {
+            color: #ff8c00;
+            font-size: 1.4em;
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+            margin: 5px 0;
+            opacity: 0;
+            animation: mantra-appear 2s ease-in-out forwards;
+        }
+
+        @keyframes mantra-appear {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .instruction-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffd700;
+            font-size: 1.8em;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            z-index: 30;
+            animation: pulse-instruction 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-instruction {
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .completion-blessing {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.2), transparent);
+            width: 400px;
+            height: 200px;
+            border-radius: 50%;
+            display: none;
+            z-index: 25;
+        }
+
+        .blessing-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffd700;
+            font-size: 2em;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 1);
+        }
+
+        .om-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 140, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 165, 0, 0.02) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .reset-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff8c00;
+            font-size: 1em;
+            opacity: 0.7;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <div class="om-background"></div>
+    
+    <div class="sacred-title">॥ श्री गणेशाय नमः ॥</div>
+    
+    <div class="instruction-text" id="instructionText">
+        🙏 Click anywhere to begin the sacred darshan 🙏
+    </div>
+    
+    <div class="sacred-container">
+        <svg class="ganesha-canvas" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="sacredGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+                    <stop offset="30%" style="stop-color:#ff8c00;stop-opacity:1" />
+                    <stop offset="70%" style="stop-color:#ffa500;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff6347;stop-opacity:1" />
+                </linearGradient>
+                
+                <filter id="divine-glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge> 
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+            
+            <!-- Om Symbol (Crown) -->
+            <path id="om-symbol" class="drawing-path" d="M 250 40 C 240 35, 230 35, 225 45 C 220 55, 225 65, 235 70 L 250 65 C 260 65, 270 55, 275 45 C 280 35, 270 35, 260 40 L 250 50 C 245 45, 250 40, 250 40 M 255 35 C 255 30, 260 25, 265 25 C 270 25, 270 30, 265 35" />
+            
+            <!-- Crown -->
+            <path id="crown" class="drawing-path" d="M 200 75 C 190 70, 180 70, 175 80 L 185 85 L 200 80 L 215 85 L 230 85 L 245 80 L 260 85 L 270 85 C 275 70, 265 70, 255 75 L 240 85 L 225 90 L 210 85 L 200 75 Z" />
+            
+            <!-- Head outline -->
+            <ellipse id="head" class="drawing-path" cx="250" cy="150" rx="85" ry="75" />
+            
+            <!-- Left ear -->
+            <path id="left-ear" class="drawing-path" d="M 180 130 C 150 120, 130 130, 125 155 C 120 180, 135 200, 160 205 C 180 200, 190 180, 185 155 C 182 140, 180 130, 180 130" />
+            
+            <!-- Right ear -->
+            <path id="right-ear" class="drawing-path" d="M 320 130 C 350 120, 370 130, 375 155 C 380 180, 365 200, 340 205 C 320 200, 310 180, 315 155 C 318 140, 320 130, 320 130" />
+            
+            <!-- Eyes -->
+            <path id="left-eye" class="drawing-path" d="M 220 135 C 225 130, 235 130, 240 135 C 235 140, 225 140, 220 135 M 230 132 C 232 130, 235 132, 233 134" />
+            <path id="right-eye" class="drawing-path" d="M 260 135 C 265 130, 275 130, 280 135 C 275 140, 265 140, 260 135 M 270 132 C 272 130, 275 132, 273 134" />
+            
+            <!-- Tilaka -->
+            <path id="tilaka" class="drawing-path" d="M 250 115 L 245 125 M 250 115 L 255 125 M 250 115 L 250 125" />
+            
+            <!-- Trunk -->
+            <path id="trunk" class="drawing-path" d="M 250 175 C 260 180, 270 190, 275 205 C 280 225, 275 245, 265 265 C 255 285, 240 295, 220 290 C 200 285, 190 265, 195 245 C 200 225, 210 205, 225 190 C 235 180, 245 175, 250 175" />
+            
+            <!-- Body -->
+            <ellipse id="body" class="drawing-path" cx="250" cy="300" rx="70" ry="90" />
+            
+            <!-- Left arm with blessing mudra -->
+            <path id="left-arm" class="drawing-path" d="M 190 250 C 160 240, 140 250, 135 270 C 130 290, 140 310, 160 315 C 165 315, 170 312, 175 308 M 160 295 C 155 290, 155 285, 160 280 M 165 285 C 170 285, 175 290, 170 295" />
+            
+            <!-- Right arm with modak -->
+            <path id="right-arm" class="drawing-path" d="M 310 250 C 340 240, 360 250, 365 270 C 370 290, 360 310, 340 315 C 335 315, 330 312, 325 308 M 340 295 C 345 290, 350 285, 355 290 C 355 295, 350 300, 345 295 C 340 295, 340 295, 340 295" />
+            
+            <!-- Legs -->
+            <ellipse id="left-leg" class="drawing-path" cx="220" cy="410" rx="30" ry="45" />
+            <ellipse id="right-leg" class="drawing-path" cx="280" cy="410" rx="30" ry="45" />
+            
+            <!-- Mouse (Mushak) -->
+            <ellipse id="mouse-body" class="drawing-path" cx="180" cy="460" rx="20" ry="12" />
+            <path id="mouse-tail" class="drawing-path" d="M 200 465 C 210 470, 220 475, 230 465" />
+            <circle id="mouse-eye" class="drawing-path" cx="175" cy="457" r="2" />
+            
+            <!-- Lotus base -->
+            <path id="lotus1" class="drawing-path" d="M 150 480 C 145 475, 145 465, 155 465 C 165 465, 170 475, 165 480" />
+            <path id="lotus2" class="drawing-path" d="M 180 485 C 175 480, 175 470, 185 470 C 195 470, 200 480, 195 485" />
+            <path id="lotus3" class="drawing-path" d="M 210 487 C 205 482, 205 472, 215 472 C 225 472, 230 482, 225 487" />
+            <path id="lotus4" class="drawing-path" d="M 240 488 C 235 483, 235 473, 245 473 C 255 473, 260 483, 255 488" />
+            <path id="lotus5" class="drawing-path" d="M 270 488 C 265 483, 265 473, 275 473 C 285 473, 290 483, 285 488" />
+            <path id="lotus6" class="drawing-path" d="M 300 487 C 295 482, 295 472, 305 472 C 315 472, 320 482, 315 487" />
+            <path id="lotus7" class="drawing-path" d="M 330 485 C 325 480, 325 470, 335 470 C 345 470, 350 480, 345 485" />
+        </svg>
+        
+        <div class="blessing-particles" id="blessingParticles"></div>
+    </div>
+    
+    <div class="completion-blessing" id="completionBlessing">
+        <div class="blessing-text">गणपति बप्पा मोर्या!</div>
+    </div>
+    
+    <div class="mantra-container" id="mantraContainer">
+        <div class="mantra-text" style="animation-delay: 5s;">॥ वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ॥</div>
+        <div class="mantra-text" style="animation-delay: 10s;">॥ निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा ॥</div>
+        <div class="mantra-text" style="animation-delay: 20s;">गणपति बप्पा मोर्या • मंगलमूर्ति मोर्या</div>
+    </div>
+    
+    <div class="reset-hint">Click anywhere to restart the divine darshan</div>
+
+    <audio id="aartiAudio" loop preload="auto">
+        <source src="assets/ganesh.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        let isDrawing = false;
+        let drawingCompleted = false;
+        
+        const drawingSequence = [
+            'om-symbol', 'crown', 'head', 'left-ear', 'right-ear', 
+            'left-eye', 'right-eye', 'tilaka', 'trunk', 'body', 
+            'left-arm', 'right-arm', 'left-leg', 'right-leg', 
+            'mouse-body', 'mouse-tail', 'mouse-eye',
+            'lotus1', 'lotus2', 'lotus3', 'lotus4', 'lotus5', 'lotus6', 'lotus7'
+        ];
+        
+        const drawingTimings = [
+            1000, 1500, 2000, 1800, 1800, 1200, 1200, 800, 2500, 2200,
+            2000, 2000, 1500, 1500, 1000, 800, 500,
+            800, 800, 800, 800, 800, 800, 800
+        ];
+
+        function createSparkleTrail(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle-trail';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            document.querySelector('.sacred-container').appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 1500);
+        }
+
+        function createBlessingParticle() {
+            const particles = ['🕉️', '🪔', '💐', '🌸', '✨', '🙏'];
+            const particle = document.createElement('div');
+            particle.className = 'blessing-particle';
+            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            
+            document.getElementById('blessingParticles').appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 10000);
+        }
+
+        function animatePath(pathId, duration) {
+            return new Promise(resolve => {
+                const path = document.getElementById(pathId);
+                const length = path.getTotalLength();
+                
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+                path.style.animation = `none`;
+                
+                // Animate the path drawing
+                path.animate([
+                    { strokeDashoffset: length },
+                    { strokeDashoffset: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'ease-in-out',
+                    fill: 'forwards'
+                }).onfinish = () => {
+                    path.classList.add('completed-path');
+                    
+                    // Create sparkle effect at random points along the path
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            const point = path.getPointAtLength(Math.random() * length);
+                            const rect = path.getBoundingClientRect();
+                            createSparkleTrail(
+                                rect.left + point.x * (rect.width / 500),
+                                rect.top + point.y * (rect.height / 500)
+                            );
+                        }, i * 100);
+                    }
+                    
+                    resolve();
+                };
+            });
+        }
+
+        async function startDrawing() {
+            if (isDrawing) return;
+            
+            isDrawing = true;
+            drawingCompleted = false;
+            document.getElementById('instructionText').style.display = 'none';
+            
+            // Reset all paths
+            drawingSequence.forEach(pathId => {
+                const path = document.getElementById(pathId);
+                path.classList.remove('completed-path');
+                const length = path.getTotalLength();
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+            });
+            
+            // Start music
+            const audio = document.getElementById('aartiAudio');
+            audio.currentTime = 0;
+            audio.play().catch(e => console.log('Audio play failed:', e));
+            
+            // Start particle effects
+            const particleInterval = setInterval(createBlessingParticle, 400);
+            
+            // Draw each part in sequence
+            for (let i = 0; i < drawingSequence.length; i++) {
+                await animatePath(drawingSequence[i], drawingTimings[i]);
+                
+                // Special effects for key moments
+                if (drawingSequence[i] === 'om-symbol') {
+                    // Om symbol completed - divine light
+                    for (let j = 0; j < 20; j++) {
+                        setTimeout(() => createBlessingParticle(), j * 50);
+                    }
+                }
+                
+                if (drawingSequence[i] === 'trunk') {
+                    // Trunk completed - most important part
+                    for (let j = 0; j < 15; j++) {
+                        setTimeout(() => createBlessingParticle(), j * 30);
+                    }
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            // Drawing completed
+            drawingCompleted = true;
+            isDrawing = false;
+            
+            // Show completion blessing
+            const blessing = document.getElementById('completionBlessing');
+            blessing.style.display = 'block';
+            blessing.style.animation = 'divine-glow 2s ease-in-out infinite alternate';
+            
+            setTimeout(() => {
+                blessing.style.display = 'none';
+            }, 4000);
+            
+            // Final burst of particles
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createBlessingParticle(), i * 100);
+            }
+            
+            // Keep particles going but slower
+            clearInterval(particleInterval);
+            setInterval(createBlessingParticle, 1000);
+            
+            // Show instruction to restart
+            setTimeout(() => {
+                if (drawingCompleted) {
+                    document.getElementById('instructionText').innerHTML = '🙏 Click to restart the divine darshan 🙏';
+                    document.getElementById('instructionText').style.display = 'block';
+                }
+            }, 8000);
+        }
+
+        // Click anywhere to start/restart
+        document.addEventListener('click', (e) => {
+            if (!isDrawing) {
+                startDrawing();
+            }
+        });
+
+        // Space key alternative
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !isDrawing) {
+                e.preventDefault();
+                startDrawing();
+            }
+        });
+
+        // Initial particle effects
+        setInterval(createBlessingParticle, 2000);
+        
+        // Create some initial sparkles
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                createSparkleTrail(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+            }, i * 500);
+        }
+    </script>
+</body>
+</html>
