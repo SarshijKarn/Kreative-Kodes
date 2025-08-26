@@ -13,7 +13,7 @@ A small gallery of creative code experiments: Python Turtle graphics, animated h
   - `Heart/mysthic_dil.py` — fast parametric heart rendered with dots
   - `Heart/mysthic_dil2.py` — animated, glowing heart + typewriter text
 
-
+### More contents on it's way, stay tuned.
 ## Requirements
 
 - Python 3.8+ (Turtle comes with the standard library; requires Tk support)
