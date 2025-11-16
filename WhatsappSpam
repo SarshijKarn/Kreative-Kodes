@@ -1,0 +1,29 @@
+# python whatsapp_spam.py
+import pyautogui
+import time
+import webbrowser
+
+# Settings
+phone_number = "+9779805968587"
+message = " CHUTIYE HO TUM!"  # Message to send
+times = 100  # How many times to send
+delay_between_messages = 0.2 # Seconds between each message
+
+# Step 1: Open WhatsApp Web for the specific chat
+url = f"https://web.whatsapp.com/send?phone={phone_number}&text={message}"
+webbrowser.open(url)
+
+# Step 2: Wait for WhatsApp Web to load
+print("Waiting 15 seconds for WhatsApp Web to load...")
+time.sleep(10)
+
+# Step 3: Press ENTER once to send the first message
+pyautogui.press('enter')
+
+# Step 4: Start spamming the same message
+for _ in range(times - 1):  # Already sent 1 message above
+    time.sleep(delay_between_messages)
+    pyautogui.typewrite(message)
+    pyautogui.press('enter')
+
+print("✅ Spamming completed!")
