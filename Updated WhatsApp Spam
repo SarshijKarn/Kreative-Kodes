@@ -1,0 +1,49 @@
+import time
+import webbrowser
+import random
+
+# SETTINGS
+phone_number = "+9779805968587"  # Victim's number 
+messages = [
+"Your WiFi has more mood swings than you.",
+"Your confidence loads slower than Windows XP.",
+"You look like someone who clicks 'Remind me tomorrow' for updates… for years.",
+"Bro types like he’s fighting the keyboard.",
+"You have the special talent of making every room slightly more awkward.",
+"Your brain’s RAM is fine, but the processor sleeps too much.",
+"You look like you use dark mode to feel mysterious.",
+"Your life runs on low battery mode permanently.",
+"You're the kind of person who says 'I’ll do it in 5 minutes' and never does.",
+"Your excuses have more versions than Android.",
+"You look like you rehearse arguments in the shower and still lose.",
+"You give ‘buffering’ energy in real life.",
+"If laziness was a sport, you'd still skip the tournament.",
+"You look like you Google simple math just to be safe.",
+"Your typing speed and decision making are equally slow.",
+"Your vibe is ‘I had potential once.’",
+"You apologize to furniture after bumping into it.",
+"You look like you take screenshots of chats to read later.",
+"Your luck is on airplane mode.",
+"You are the human version of a low storage warning."
+
+]  # List of random messages
+
+times = 25  # How many total messages
+delay_between_messages = 0.3  # Gap between each message
+
+# OPEN CHAT
+url = f"https://web.whatsapp.com/send?phone={phone_number}"
+webbrowser.open(url)
+
+# WAIT FOR PAGE LOAD
+print("🚀 Waiting 15 seconds for WhatsApp Web to load...")
+time.sleep(15)
+
+# START SENDING
+for _ in range(times):
+    message = random.choice(messages)
+    pyautogui.typewrite(message)
+    pyautogui.press('enter')
+    time.sleep(delay_between_messages)
+
+print("✅ Notorious spamming completed!")
